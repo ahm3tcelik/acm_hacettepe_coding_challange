@@ -10,9 +10,14 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^5.0.0
+  flutter_mobx: ^2.0.0
   mobx: ^2.0.1
   kartal: ^2.0.0
+  json_serializable: ^4.1.1
+  json_annotation: ^4.0.1
   easy_localization: ^3.0.0
+  shimmer: ^2.0.0
+  page_transition: ^2.0.1-nullsafety.0
   google_fonts: ^2.0.0
   cupertino_icons: ^1.0.2
 
