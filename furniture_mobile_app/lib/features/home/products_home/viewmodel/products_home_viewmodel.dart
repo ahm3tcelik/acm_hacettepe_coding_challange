@@ -1,6 +1,8 @@
-import 'package:furniture_mobile_app/product/models/category_model.dart';
-import 'package:furniture_mobile_app/product/models/product_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../../../product/models/category_model.dart';
+import '../../../../product/models/product_model.dart';
 
 part 'products_home_viewmodel.g.dart';
 
@@ -8,16 +10,8 @@ class ProductsHomeViewModel = _ProductsHomeViewModelBase
     with _$ProductsHomeViewModel;
 
 abstract class _ProductsHomeViewModelBase with Store {
-  final allCategory = Category(categoryId: 0, categoryName: 'All');
-
   @observable
   int? selectedCategoryId = 0;
-
-  @observable
-  List<Category> categoryList = [];
-
-  @observable
-  List<Product> productList = [];
 
   @observable
   ViewState categoryViewState = ViewState.INITIAL;
@@ -25,8 +19,22 @@ abstract class _ProductsHomeViewModelBase with Store {
   @observable
   ViewState productViewState = ViewState.INITIAL;
 
+  BuildContext? context;
+  final allCategory = Category(categoryId: 0, categoryName: 'All');
+  final searchTextController = TextEditingController();
+
+  var _categoryList = <Category>[];
+
+  List<Category> get categoryList => [allCategory] + _categoryList;
+
+  var productList = <Product>[];
+
   void onInit() {
     getAllCategories();
+  }
+
+  void onDispose() {
+    searchTextController.dispose();
   }
 
   @action
@@ -38,9 +46,8 @@ abstract class _ProductsHomeViewModelBase with Store {
   @action
   Future getAllCategories() async {
     categoryViewState = ViewState.BUSY;
-    await Future.delayed(Duration(seconds: 2));
-    categoryList = categories;
-    categoryList.insert(0, allCategory);
+    await Future.delayed(Duration(seconds:1));
+    _categoryList = categories;
     changeCategoryId(allCategory.categoryId);
     categoryViewState = ViewState.DATA;
   }
@@ -48,7 +55,7 @@ abstract class _ProductsHomeViewModelBase with Store {
   @action
   Future getProductsByCategoryId(int? categoryId) async {
     productViewState = ViewState.BUSY;
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     // GET ALL
     if (categoryId == allCategory.categoryId || categoryId == null) {
       productList = products;
@@ -63,21 +70,34 @@ abstract class _ProductsHomeViewModelBase with Store {
   @action
   Future searchProductsByNameAndCategoryId(String key, int? categoryId) async {
     productViewState = ViewState.BUSY;
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     // SEARCH ALL
     if (categoryId == allCategory.categoryId || categoryId == null) {
-      productList =
-          products.where((p) => p.productName?.contains(key) ?? false).toList();
+      productList = products
+          .where((p) =>
+              p.productName?.toLowerCase().contains(key.toLowerCase()) ?? false)
+          .toList();
     }
     // SEARCH BY CATEGORY
     else {
       productList = products
           .where((p) =>
               p.categoryId == categoryId &&
-              (p.productName?.contains(key) ?? false))
+              (p.productName?.toLowerCase().contains(key.toLowerCase()) ??
+                  false))
           .toList();
     }
     productViewState = ViewState.DATA;
+  }
+
+  void onSubmitSearch(String key) {
+    searchProductsByNameAndCategoryId(key, selectedCategoryId);
+  }
+
+  void clearSearchText() {
+    searchTextController.clear();
+    FocusManager.instance.primaryFocus?.unfocus();
+    getProductsByCategoryId(selectedCategoryId);
   }
 
   bool isCategorySelected(int? categoryId) {

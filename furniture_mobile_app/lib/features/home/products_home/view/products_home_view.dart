@@ -18,11 +18,12 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     _viewModel.onInit();
     return BaseView<ProductsHomeViewModel>(
       viewModel: _viewModel,
+      onContextReady: (context) => _viewModel.context = context,
       onModelReady: (model) => model.onInit(),
+      onDispose: () => _viewModel.onDispose(),
       onPageBuilder: (context, value) => Scaffold(
         body: SafeArea(
           child: Container(
@@ -76,8 +77,14 @@ class HomeView extends StatelessWidget {
 
   Widget _buildSearchBox(BuildContext context) {
     return TextField(
+      onSubmitted: (value) => _viewModel.onSubmitSearch(value),
+      controller: _viewModel.searchTextController,
       decoration: InputDecoration(
           prefixIcon: Icon(CupertinoIcons.search),
+          suffixIcon: IconButton(
+            icon: Icon(CupertinoIcons.clear),
+            onPressed: _viewModel.clearSearchText,
+          ),
           hintText: 'Search...',
           isDense: true,
           filled: true,
@@ -103,12 +110,12 @@ class HomeView extends StatelessWidget {
 
   Widget _buildCategories(BuildContext context) {
     return Observer(
-      builder: (_) => Ternary(
-        condition: _viewModel.categoryViewState == ViewState.BUSY,
-        widgetTrue: LinearProgressIndicator(),
-        widgetFalse: SizedBox(
-          height: context.dynamicHeight(0.07),
-          child: ListView.builder(
+      builder: (_) => SizedBox(
+        height: context.dynamicHeight(0.07),
+        child:  Ternary(
+          condition: _viewModel.categoryViewState == ViewState.BUSY,
+          widgetTrue: Stack(alignment: Alignment.center,children: [LinearProgressIndicator()]),
+          widgetFalse: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: _viewModel.categoryList.length,
             itemBuilder: (context, index) =>

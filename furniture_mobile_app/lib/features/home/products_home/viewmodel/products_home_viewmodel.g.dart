@@ -25,38 +25,6 @@ mixin _$ProductsHomeViewModel on _ProductsHomeViewModelBase, Store {
     });
   }
 
-  final _$categoryListAtom =
-      Atom(name: '_ProductsHomeViewModelBase.categoryList');
-
-  @override
-  List<Category> get categoryList {
-    _$categoryListAtom.reportRead();
-    return super.categoryList;
-  }
-
-  @override
-  set categoryList(List<Category> value) {
-    _$categoryListAtom.reportWrite(value, super.categoryList, () {
-      super.categoryList = value;
-    });
-  }
-
-  final _$productListAtom =
-      Atom(name: '_ProductsHomeViewModelBase.productList');
-
-  @override
-  List<Product> get productList {
-    _$productListAtom.reportRead();
-    return super.productList;
-  }
-
-  @override
-  set productList(List<Product> value) {
-    _$productListAtom.reportWrite(value, super.productList, () {
-      super.productList = value;
-    });
-  }
-
   final _$categoryViewStateAtom =
       Atom(name: '_ProductsHomeViewModelBase.categoryViewState');
 
@@ -134,8 +102,6 @@ mixin _$ProductsHomeViewModel on _ProductsHomeViewModelBase, Store {
   String toString() {
     return '''
 selectedCategoryId: ${selectedCategoryId},
-categoryList: ${categoryList},
-productList: ${productList},
 categoryViewState: ${categoryViewState},
 productViewState: ${productViewState}
     ''';
