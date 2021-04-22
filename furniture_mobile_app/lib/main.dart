@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:furniture_mobile_app/product/managers/basket_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'features/home/products_home/view/products_home_view.dart';
@@ -13,7 +14,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeManager())
+        ChangeNotifierProvider(create: (_) => ThemeManager()),
+        ChangeNotifierProvider(create: (_) => BasketManager()),
+        // Provider.value(value: BasketManager()),
       ],
       child: EasyLocalization(
         supportedLocales: LanguageManager.instance.supportedLocales,
