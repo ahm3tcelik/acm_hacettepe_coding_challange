@@ -1,27 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../core/widgets/wrap_with_badge.dart';
+import '../../../../core/base/base_view.dart';
 import '../../../../core/init/theme/furniture_theme.dart';
+import '../../../../product/managers/basket_manager.dart';
 import '../../../../product/constants/custom_colors.dart';
 import '../../../../product/extensions/string_extensions.dart';
 import '../../../../product/models/product_model.dart';
 import '../../../../product/widgets/number_counter_button.dart';
 import '../../../../product/widgets/product_fav_button.dart';
+import '../viewmodel/product_detail_viewmodel.dart';
 
 class ProductDetailView extends StatelessWidget {
   final Product product;
 
-  const ProductDetailView({
+  ProductDetailView({
     Key? key,
     required this.product,
   }) : super(key: key);
 
+  final _viewModel = ProductDetailViewModel();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: SafeArea(child: _buildBody(context)),
+    return BaseView<ProductDetailViewModel>(
+      viewModel: _viewModel,
+      onContextReady: (context) => _viewModel.context = context,
+      onPageBuilder: (context, value) => Scaffold(
+        appBar: _buildAppBar(context),
+        body: SafeArea(child: _buildBody(context)),
+      ),
     );
   }
 
@@ -54,7 +65,7 @@ class ProductDetailView extends StatelessWidget {
         height: context.height,
         child: Stack(
           children: [
-            _buildProductContent(context),
+            _buildProductContainer(context),
             _buildProductImage(context),
           ],
         ),
@@ -73,7 +84,7 @@ class ProductDetailView extends StatelessWidget {
     );
   }
 
-  Widget _buildProductContent(BuildContext context) {
+  Widget _buildProductContainer(BuildContext context) {
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -85,35 +96,39 @@ class ProductDetailView extends StatelessWidget {
             topLeft: context.normalRadius * 1.5,
             topRight: context.normalRadius * 1.5),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildProductTitle(context),
-          SizedBox(height: context.normalValue),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildStarRate(context),
-              const Expanded(child: SizedBox()),
-              _buildQuantityButton(context)
-            ],
-          ),
-          SizedBox(height: context.normalValue),
-          _buildProductColors(context),
-          SizedBox(height: context.normalValue),
-          _buildDescription(context),
-          SizedBox(height: context.normalValue),
-          _buildPrice(context),
-          SizedBox(height: context.normalValue),
-          Row(
-            children: [
-              _buildBasketButton(context),
-              SizedBox(width: context.normalValue),
-              Expanded(child: _buildBuyButton(context))
-            ],
-          )
-        ],
-      ),
+      child: _buildProductContent(context),
+    );
+  }
+
+  Widget _buildProductContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildProductTitle(context),
+        SizedBox(height: context.normalValue),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildStarRate(context),
+            const Expanded(child: SizedBox()),
+            _buildQuantityButton(context)
+          ],
+        ),
+        SizedBox(height: context.normalValue),
+        _buildProductColors(context),
+        SizedBox(height: context.normalValue),
+        _buildDescription(context),
+        SizedBox(height: context.normalValue),
+        _buildPrice(context),
+        SizedBox(height: context.normalValue),
+        Row(
+          children: [
+            _buildBasketButton(context),
+            SizedBox(width: context.normalValue),
+            Expanded(child: _buildBuyButton(context))
+          ],
+        )
+      ],
     );
   }
 
@@ -184,11 +199,22 @@ class ProductDetailView extends StatelessWidget {
       child: InkWell(
         onTap: () {},
         customBorder: CircleBorder(),
-        child: Container(
-            height: context.dynamicHeight(0.07),
-            width: context.dynamicHeight(0.07),
-            child: Icon(Icons.shopping_bag_outlined, size: context.dynamicHeight(0.05),)),
+        child: _buildBasketButtonContent(context),
       ),
+    );
+  }
+
+  Widget _buildBasketButtonContent(BuildContext context) {
+    return Container(
+        height: context.dynamicHeight(0.07),
+        width: context.dynamicHeight(0.07),
+        child: WrapWithBadge(
+          bottom: 0,
+          right: 0,
+          badgeLabel: context.watch<BasketManager>().productCount.toString(),
+          badgeColor: context.appTheme.primaryColor,
+          child: Icon(Icons.shopping_bag_outlined, size: context.dynamicHeight(0.05),),
+        )
     );
   }
 
@@ -196,7 +222,7 @@ class ProductDetailView extends StatelessWidget {
     return SizedBox(
       height: context.dynamicHeight(0.07),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () => _viewModel.buyProduct(product),
         child: Text('Buy',
             style: context.textTheme.headline6!
                 .copyWith(color: context.colorScheme.onPrimary)),
@@ -208,9 +234,7 @@ class ProductDetailView extends StatelessWidget {
     return NumberCounterButton(
       height: context.dynamicHeight(0.05),
       width: context.dynamicWidth(0.3),
-      value: 1,
-      onDecrease: () {},
-      onIncrease: () {},
+      onChanged: (value) => _viewModel.changeQuantity(value),
     );
   }
 }
