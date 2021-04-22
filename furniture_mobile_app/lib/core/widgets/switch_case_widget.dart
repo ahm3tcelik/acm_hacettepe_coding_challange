@@ -7,7 +7,7 @@ class Case {
   ///```dart
   /// Case(value: 'customer', widget: _buildGreetCustomer),
   ///```
-  Case({required this.widget, required this.value});
+  const Case({required this.widget, required this.value});
 }
 
 class SwitchCase extends StatelessWidget {

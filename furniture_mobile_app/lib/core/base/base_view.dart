@@ -3,11 +3,19 @@ import 'package:mobx/mobx.dart';
 
 class BaseView<T extends Store> extends StatefulWidget {
   final Widget Function(BuildContext context, T value) onPageBuilder;
+  final Function(BuildContext context)? onContextReady;
   final T viewModel;
-  final Function(T model) onModelReady;
+  final Function(T model)? onModelReady;
   final VoidCallback? onDispose;
 
-  const BaseView({Key? key, required this.viewModel, required this.onPageBuilder, required this.onModelReady, this.onDispose}) : super(key: key);
+  const BaseView({
+    Key? key,
+    required this.viewModel,
+    required this.onPageBuilder,
+    this.onModelReady,
+    this.onContextReady,
+    this.onDispose,
+  }) : super(key: key);
 
   @override
   _BaseViewState<T> createState() => _BaseViewState<T>();
@@ -15,13 +23,13 @@ class BaseView<T extends Store> extends StatefulWidget {
 
 class _BaseViewState<T extends Store> extends State<BaseView<T>> {
   late T model;
+
   @override
   void initState() {
     model = widget.viewModel;
-    widget.onModelReady(model);
+    widget.onModelReady?.call(model);
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -31,6 +39,7 @@ class _BaseViewState<T extends Store> extends State<BaseView<T>> {
 
   @override
   Widget build(BuildContext context) {
+    widget.onContextReady?.call(context);
     return widget.onPageBuilder(context, model);
   }
 }

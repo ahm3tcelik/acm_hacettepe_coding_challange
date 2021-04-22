@@ -13,7 +13,7 @@ class Ternary extends StatelessWidget {
   ///    widgetFalse: Text('Login'),
   ///  )
   ///```
-  Ternary(
+  const Ternary(
       {required this.condition,
       required this.widgetTrue,
       required this.widgetFalse});
