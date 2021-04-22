@@ -16,7 +16,8 @@ final furnitureThemeData = ThemeData(
       showSelectedLabels: false,
       showUnselectedLabels: false,
       type: BottomNavigationBarType.fixed,
-      selectedIconTheme: IconThemeData(color: colorScheme.onPrimary, opacity: 1),
+      selectedIconTheme:
+          IconThemeData(color: colorScheme.onPrimary, opacity: 1),
       unselectedIconTheme: IconThemeData(
         color: colorScheme.onPrimary,
         opacity: 0.5,
