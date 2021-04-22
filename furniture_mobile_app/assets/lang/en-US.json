@@ -1,3 +1,8 @@
 {
-  "welcome": "Welcome to My App"
+  "welcome": "Welcome to My App",
+  "widgets": {
+    "product_card_item": {
+      "buy": "Buy"
+    }
+  }
 }
