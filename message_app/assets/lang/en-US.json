@@ -1,0 +1,16 @@
+{
+  "app_title": "Chat App",
+  "app_name": "Chatttelr",
+  "activity": "Activity",
+  "messages": "Messages",
+  "call": "Call",
+  "camera": "Camera",
+  "settings": "Settings",
+  "online": "Online",
+  "offline": "Offline",
+  "now":  "Now",
+  "min": "min",
+  "day": "day",
+  "hour": "hour",
+  "type_message": "Type a message"
+}
