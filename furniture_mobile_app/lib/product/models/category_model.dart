@@ -19,7 +19,7 @@ class Category extends INetworkModel<Category> {
   @override
   Category fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 }
-
+/* FAKE DATA
 final categories = <Category>[
   Category(categoryId: 1, categoryName: 'Chair'),
   Category(categoryId: 2, categoryName: 'Sofa'),
@@ -27,3 +27,4 @@ final categories = <Category>[
   Category(categoryId: 4, categoryName: 'Lamp'),
   Category(categoryId: 5, categoryName: 'Furniture'),
 ];
+ */

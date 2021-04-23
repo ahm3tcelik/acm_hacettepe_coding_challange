@@ -36,7 +36,7 @@ class Product extends INetworkModel<Product> {
   @override
   Product fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 }
-
+/* FAKE DATA
 final products = <Product>[
   Product(
       productId: 1,
@@ -134,3 +134,4 @@ final products = <Product>[
       photoUrl:
           'https://static.vecteezy.com/system/resources/thumbnails/001/201/606/small_2x/lamp.png'),
 ];
+*/
