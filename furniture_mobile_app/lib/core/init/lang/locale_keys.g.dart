@@ -1,9 +1,15 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
 abstract class  LocaleKeys {
-  static const welcome = 'welcome';
-  static const widgets_product_card_item_buy = 'widgets.product_card_item.buy';
-  static const widgets_product_card_item = 'widgets.product_card_item';
-  static const widgets = 'widgets';
+  static const app_title = 'app_title';
+  static const buy = 'buy';
+  static const search_hint = 'search_hint';
+  static const home = 'home';
+  static const basket = 'basket';
+  static const star = 'star';
+  static const profile = 'profile';
+  static const product_detail = 'product_detail';
+  static const color = 'color';
+  static const all = 'all';
 
 }

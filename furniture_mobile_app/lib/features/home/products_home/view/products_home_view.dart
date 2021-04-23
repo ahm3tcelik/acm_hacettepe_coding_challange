@@ -2,16 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:furniture_mobile_app/product/managers/user_manager.dart';
-import 'package:furniture_mobile_app/product/models/product_model.dart';
 import 'package:kartal/kartal.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../core/init/lang/locale_keys.g.dart';
 import '../../../../core/base/base_view.dart';
 import '../../../../core/widgets/ternary_widget.dart';
 import '../../../../product/models/category_model.dart';
 import '../../../../product/widgets/category_chip_item.dart';
+import '../../../../product/managers/user_manager.dart';
+import '../../../../product/models/product_model.dart';
 import '../../../../product/widgets/product_card_item/product_card_item.dart';
 import '../../../../product/widgets/product_card_item/product_card_item_shimmer.dart';
 import '../../product_detail/view/product_detail_view.dart';
@@ -95,7 +97,7 @@ class HomeView extends StatelessWidget {
             icon: Icon(CupertinoIcons.clear),
             onPressed: _viewModel.clearSearchText,
           ),
-          hintText: 'Search...',
+          hintText: LocaleKeys.search_hint.tr(),
           isDense: true,
           filled: true,
           fillColor: context.appTheme.cardColor,
@@ -198,19 +200,19 @@ class HomeView extends StatelessWidget {
       child: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            label: 'Home',
+            label: LocaleKeys.home.tr(),
             icon: Icon(CupertinoIcons.home),
           ),
           BottomNavigationBarItem(
-            label: 'Basket',
+            label: LocaleKeys.basket.tr(),
             icon: Icon(Icons.shopping_bag_outlined),
           ),
           BottomNavigationBarItem(
-            label: 'Star',
+            label: LocaleKeys.star.tr(),
             icon: Icon(CupertinoIcons.star),
           ),
           BottomNavigationBarItem(
-            label: 'Profile',
+            label: LocaleKeys.profile.tr(),
             icon: Icon(CupertinoIcons.person),
           ),
         ],

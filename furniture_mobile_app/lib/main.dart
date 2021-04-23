@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as dot_env;
 import 'package:provider/provider.dart';
 
+import 'core/init/lang/locale_keys.g.dart';
 import 'core/constants/app_constants.dart';
 import 'core/init/lang/language_manager.dart';
 import 'features/home/products_home/view/products_home_view.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Furniture App',
+      title: LocaleKeys.app_title,
       debugShowCheckedModeBanner: false,
       theme: context.watch<ThemeManager>().currentTheme,
       localizationsDelegates: context.localizationDelegates,

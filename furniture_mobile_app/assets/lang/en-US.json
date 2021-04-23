@@ -1,8 +1,12 @@
 {
-  "welcome": "Welcome to My App",
-  "widgets": {
-    "product_card_item": {
-      "buy": "Buy"
-    }
-  }
+  "app_title": "ACM Hacettepe Flutter Challange",
+  "buy": "Buy",
+  "search_hint": "Search...",
+  "home": "Home",
+  "basket": "Basket",
+  "star": "Star",
+  "profile": "Profile",
+  "product_detail": "Detail Product",
+  "color": "Color",
+  "all": "All"
 }

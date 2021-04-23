@@ -129,7 +129,7 @@ class ProductCardItem extends StatelessWidget {
   Widget _buildBuyButton(BuildContext context) {
     return ElevatedButton(
       onPressed: onClickBuy ?? () {},
-      child: Text(LocaleKeys.widgets_product_card_item_buy.tr()),
+      child: Text(LocaleKeys.buy.tr()),
     );
   }
 }

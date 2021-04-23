@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// pub run easy_localization:generate -S "assets/lang" -f keys -O "lib/core/init/lang" -o locale_keys.g.dart
+// flutter pub run easy_localization:generate -S "assets/lang" -f keys -O "lib/core/init/lang" -o locale_keys.g.dart
 
 class LanguageManager {
   static LanguageManager? _instance;

@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../core/init/lang/locale_keys.g.dart';
 import '../../../../core/base/base_view.dart';
 import '../../../../core/init/theme/furniture_theme.dart';
 import '../../../../core/widgets/wrap_with_badge.dart';
@@ -44,7 +46,7 @@ class ProductDetailView extends StatelessWidget {
         onPressed: () => context.navigation.pop(),
         icon: Icon(CupertinoIcons.back),
       ),
-      title: Text('Detail Product'),
+      title: Text(LocaleKeys.product_detail.tr()),
       actions: [_buildFavButton(context)],
       elevation: 0,
       backgroundColor: context.appTheme.scaffoldBackgroundColor,
@@ -167,7 +169,7 @@ class ProductDetailView extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'Color',
+          LocaleKeys.color.tr(),
           style: context.textTheme.headline6!
               .copyWith(fontWeight: FontWeight.bold),
         ),
@@ -237,7 +239,7 @@ class ProductDetailView extends StatelessWidget {
       height: context.dynamicHeight(0.07),
       child: ElevatedButton(
         onPressed: () => _viewModel.buyProduct(product),
-        child: Text('Buy',
+        child: Text(LocaleKeys.buy.tr(),
             style: context.textTheme.headline6!
                 .copyWith(color: context.colorScheme.onPrimary)),
       ),
