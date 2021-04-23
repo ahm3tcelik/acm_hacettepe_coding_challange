@@ -33,6 +33,7 @@ abstract class _MessageDetailViewModelBase with Store {
 
   void onDispose() {
     textController.dispose();
+    chatMessages.clear();
   }
 
   @action
