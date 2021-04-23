@@ -8,14 +8,14 @@ import 'avatar.dart';
 
 //TODO: LANG
 class ChatCardItem extends StatelessWidget {
-  final User? targetUser;
+  final User targetUser;
   final Chat chat;
   final VoidCallback? onTap;
 
   const ChatCardItem({
     Key? key,
     required this.chat,
-    this.targetUser,
+    required this.targetUser,
     this.onTap,
   }) : super(key: key);
 
@@ -25,8 +25,8 @@ class ChatCardItem extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: context.lowBorderRadius),
       onTap: onTap,
       contentPadding: EdgeInsets.zero,
-      leading: Avatar(user: targetUser),
-      title: Text(targetUser?.userName.orEmpty ?? '',
+      leading: Hero(tag: targetUser.userId.avatarTag, child: Avatar(user: targetUser)),
+      title: Text(targetUser.userName.orEmpty,
           style: context.textTheme.headline6),
       subtitle: Text(
         chat.messages?.last.messageContent ?? '',
