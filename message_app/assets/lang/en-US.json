@@ -1,3 +1,13 @@
 {
-  "app_title": "Chat App"
+  "app_title": "Chat App",
+  "app_name": "Chatttelr",
+  "activity": "Activity",
+  "messages": "Messages",
+  "call": "Call",
+  "camera": "Camera",
+  "settings": "Settings",
+  "now":  "Now",
+  "min": "min",
+  "day": "day",
+  "hour": "hour"
 }
