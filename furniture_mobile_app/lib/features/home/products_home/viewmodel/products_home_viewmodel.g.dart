@@ -57,31 +57,21 @@ mixin _$ProductsHomeViewModel on _ProductsHomeViewModelBase, Store {
     });
   }
 
-  final _$getAllCategoriesAsyncAction =
-      AsyncAction('_ProductsHomeViewModelBase.getAllCategories');
+  final _$fetchAllCategoriesAsyncAction =
+      AsyncAction('_ProductsHomeViewModelBase.fetchAllCategories');
 
   @override
-  Future<dynamic> getAllCategories() {
-    return _$getAllCategoriesAsyncAction.run(() => super.getAllCategories());
+  Future<dynamic> fetchAllCategories() {
+    return _$fetchAllCategoriesAsyncAction
+        .run(() => super.fetchAllCategories());
   }
 
-  final _$getProductsByCategoryIdAsyncAction =
-      AsyncAction('_ProductsHomeViewModelBase.getProductsByCategoryId');
+  final _$fetchAllProductsAsyncAction =
+      AsyncAction('_ProductsHomeViewModelBase.fetchAllProducts');
 
   @override
-  Future<dynamic> getProductsByCategoryId(int? categoryId) {
-    return _$getProductsByCategoryIdAsyncAction
-        .run(() => super.getProductsByCategoryId(categoryId));
-  }
-
-  final _$searchProductsByNameAndCategoryIdAsyncAction = AsyncAction(
-      '_ProductsHomeViewModelBase.searchProductsByNameAndCategoryId');
-
-  @override
-  Future<dynamic> searchProductsByNameAndCategoryId(
-      String key, int? categoryId) {
-    return _$searchProductsByNameAndCategoryIdAsyncAction
-        .run(() => super.searchProductsByNameAndCategoryId(key, categoryId));
+  Future<dynamic> fetchAllProducts() {
+    return _$fetchAllProductsAsyncAction.run(() => super.fetchAllProducts());
   }
 
   final _$_ProductsHomeViewModelBaseActionController =
@@ -93,6 +83,31 @@ mixin _$ProductsHomeViewModel on _ProductsHomeViewModelBase, Store {
         .startAction(name: '_ProductsHomeViewModelBase.changeCategoryId');
     try {
       return super.changeCategoryId(categoryId);
+    } finally {
+      _$_ProductsHomeViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void getProductsByCategoryId(int? categoryId) {
+    final _$actionInfo =
+        _$_ProductsHomeViewModelBaseActionController.startAction(
+            name: '_ProductsHomeViewModelBase.getProductsByCategoryId');
+    try {
+      return super.getProductsByCategoryId(categoryId);
+    } finally {
+      _$_ProductsHomeViewModelBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void searchProductsByNameAndCategoryId(String key, int? categoryId) {
+    final _$actionInfo =
+        _$_ProductsHomeViewModelBaseActionController.startAction(
+            name:
+                '_ProductsHomeViewModelBase.searchProductsByNameAndCategoryId');
+    try {
+      return super.searchProductsByNameAndCategoryId(key, categoryId);
     } finally {
       _$_ProductsHomeViewModelBaseActionController.endAction(_$actionInfo);
     }

@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:furniture_mobile_app/product/managers/basket_manager.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../product/models/product_model.dart';
+import '../../../../product/managers/basket_manager.dart';
+import '../../../../product/managers/user_manager.dart';
 
 part 'product_detail_viewmodel.g.dart';
 
@@ -21,5 +22,18 @@ abstract class _ProductDetailViewModelBase with Store {
 
   void buyProduct(Product product) {
     context?.read<BasketManager>().increaseProduct(product, quantity);
+  }
+
+  bool isFavorite(UserManager manager, Product product) {
+    return manager.isFavorite(product.productId);
+  }
+
+  void setFav(Product product, bool isChecked) {
+    if (isChecked) {
+      context?.read<UserManager>().addProductToFavorites(product);
+    }
+    else {
+      context?.read<UserManager>().removeProductToFavorites(product);
+    }
   }
 }

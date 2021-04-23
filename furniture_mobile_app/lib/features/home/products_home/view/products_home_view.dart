@@ -1,8 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:furniture_mobile_app/product/managers/user_manager.dart';
+import 'package:furniture_mobile_app/product/models/product_model.dart';
 import 'package:kartal/kartal.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/base/base_view.dart';
 import '../../../../core/widgets/ternary_widget.dart';
@@ -18,7 +22,6 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel.onInit();
     return BaseView<ProductsHomeViewModel>(
       viewModel: _viewModel,
       onContextReady: (context) => _viewModel.context = context,
@@ -50,13 +53,20 @@ class HomeView extends StatelessWidget {
   Widget _buildTopBar(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: CircleAvatar(),
+      leading: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: context.watch<UserManager>().currentUser?.photoUrl ?? '',
+          fit: BoxFit.cover,
+          placeholder: (context, url) => CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Icon(Icons.error),
+        ),
+      ),
       title: Text(
         'Welcome',
         style: context.textTheme.bodyText2,
       ),
       subtitle: Text(
-        'Courtney Henry',
+        context.watch<UserManager>().currentUser?.fullName ?? '',
         style:
             context.textTheme.subtitle1!.copyWith(fontWeight: FontWeight.bold),
       ),
@@ -112,9 +122,11 @@ class HomeView extends StatelessWidget {
     return Observer(
       builder: (_) => SizedBox(
         height: context.dynamicHeight(0.07),
-        child:  Ternary(
+        child: Ternary(
           condition: _viewModel.categoryViewState == ViewState.BUSY,
-          widgetTrue: Stack(alignment: Alignment.center,children: [LinearProgressIndicator()]),
+          widgetTrue: Stack(
+              alignment: Alignment.center,
+              children: [LinearProgressIndicator()]),
           widgetFalse: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: _viewModel.categoryList.length,
@@ -150,16 +162,20 @@ class HomeView extends StatelessWidget {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, childAspectRatio: 2 / 3),
-      itemCount: _viewModel.productList.length,
-      itemBuilder: (context, index) => ProductCardItem(
-        product: _viewModel.productList[index],
-        onClickDetail: () => Navigator.push(
-          context,
-          PageTransition(
-            type: PageTransitionType.fade,
-            child: ProductDetailView(product: _viewModel.productList[index]),
-          ),
-        ),
+      itemCount: _viewModel.filteredProductList.length,
+      itemBuilder: (context, index) =>
+          _buildProductCard(context, _viewModel.filteredProductList[index]),
+    );
+  }
+
+  Widget _buildProductCard(BuildContext context, Product product) {
+    return Consumer<UserManager>(
+      builder: (context, userManager, child) => ProductCardItem(
+        isFav: _viewModel.isFavorite(userManager, product),
+        onChangeFav: (isChecked) => _viewModel.setFav(product, isChecked),
+        product: product,
+        onClickBuy: () => goToDetailPage(context, product),
+        onClickDetail: () => goToDetailPage(context, product),
       ),
     );
   }
@@ -198,6 +214,15 @@ class HomeView extends StatelessWidget {
             icon: Icon(CupertinoIcons.person),
           ),
         ],
+      ),
+    );
+  }
+
+  void goToDetailPage(BuildContext context, Product product) {
+    Navigator.push(context,
+      PageTransition(
+        type: PageTransitionType.fade,
+        child: ProductDetailView(product: product),
       ),
     );
   }

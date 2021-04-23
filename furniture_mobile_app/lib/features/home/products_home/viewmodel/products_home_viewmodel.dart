@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../core/init/network/vexana_manager.dart';
+import '../../../../product/managers/user_manager.dart';
 import '../../../../product/models/category_model.dart';
 import '../../../../product/models/product_model.dart';
+import '../service/home_service.dart';
 
 part 'products_home_viewmodel.g.dart';
 
@@ -20,6 +24,7 @@ abstract class _ProductsHomeViewModelBase with Store {
   ViewState productViewState = ViewState.INITIAL;
 
   BuildContext? context;
+  late final IHomeService _homeService;
   final allCategory = Category(categoryId: 0, categoryName: 'All');
   final searchTextController = TextEditingController();
 
@@ -27,10 +32,13 @@ abstract class _ProductsHomeViewModelBase with Store {
 
   List<Category> get categoryList => [allCategory] + _categoryList;
 
-  var productList = <Product>[];
+  var _productList = <Product>[];
+  var filteredProductList = <Product>[];
 
-  void onInit() {
-    getAllCategories();
+  void onInit() async {
+    _homeService = HomeService.instance(VexanaManager.instance.networkManager);
+    await fetchAllCategories();
+    await fetchAllProducts();
   }
 
   void onDispose() {
@@ -44,43 +52,61 @@ abstract class _ProductsHomeViewModelBase with Store {
   }
 
   @action
-  Future getAllCategories() async {
+  Future fetchAllCategories() async {
+    if (categoryViewState == ViewState.BUSY) {
+      return;
+    }
     categoryViewState = ViewState.BUSY;
-    await Future.delayed(Duration(seconds:1));
-    _categoryList = categories;
-    changeCategoryId(allCategory.categoryId);
-    categoryViewState = ViewState.DATA;
+    final result = await _homeService.fetchCategories();
+    if (result.data is List) {
+      _categoryList = result.data ?? [];
+      categoryViewState = ViewState.DATA;
+    } else {
+      categoryViewState = ViewState.ERROR;
+    }
   }
 
   @action
-  Future getProductsByCategoryId(int? categoryId) async {
+  Future fetchAllProducts() async {
+    if (productViewState == ViewState.BUSY) {
+      return;
+    }
     productViewState = ViewState.BUSY;
-    await Future.delayed(Duration(seconds: 1));
+    final result = await _homeService.fetchProducts();
+    if (result.data is List) {
+      _productList = result.data ?? [];
+      getProductsByCategoryId(selectedCategoryId);
+    } else {
+      productViewState = ViewState.ERROR;
+    }
+  }
+
+  @action
+  void getProductsByCategoryId(int? categoryId) {
     // GET ALL
     if (categoryId == allCategory.categoryId || categoryId == null) {
-      productList = products;
+      filteredProductList = _productList;
     }
     // GET BY CATEGORY
     else {
-      productList = products.where((p) => p.categoryId == categoryId).toList();
+      filteredProductList =
+          _productList.where((p) => p.categoryId == categoryId).toList();
     }
     productViewState = ViewState.DATA;
   }
 
   @action
-  Future searchProductsByNameAndCategoryId(String key, int? categoryId) async {
-    productViewState = ViewState.BUSY;
-    await Future.delayed(Duration(seconds: 1));
+  void searchProductsByNameAndCategoryId(String key, int? categoryId) {
     // SEARCH ALL
     if (categoryId == allCategory.categoryId || categoryId == null) {
-      productList = products
+      filteredProductList = _productList
           .where((p) =>
               p.productName?.toLowerCase().contains(key.toLowerCase()) ?? false)
           .toList();
     }
     // SEARCH BY CATEGORY
     else {
-      productList = products
+      filteredProductList = _productList
           .where((p) =>
               p.categoryId == categoryId &&
               (p.productName?.toLowerCase().contains(key.toLowerCase()) ??
@@ -102,6 +128,18 @@ abstract class _ProductsHomeViewModelBase with Store {
 
   bool isCategorySelected(int? categoryId) {
     return selectedCategoryId == categoryId && categoryId != null;
+  }
+
+  bool isFavorite(UserManager manager, Product product) {
+    return manager.isFavorite(product.productId);
+  }
+
+  void setFav(Product product, bool isChecked) {
+    if (isChecked) {
+      context?.read<UserManager>().addProductToFavorites(product);
+    } else {
+      context?.read<UserManager>().removeProductToFavorites(product);
+    }
   }
 }
 

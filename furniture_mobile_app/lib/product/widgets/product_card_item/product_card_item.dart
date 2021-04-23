@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class ProductCardItem extends StatelessWidget {
   final Product product;
   final VoidCallback? onClickBuy;
   final VoidCallback? onClickDetail;
+  final Function(bool)? onChangeFav;
 
   const ProductCardItem({
     Key? key,
@@ -23,6 +25,7 @@ class ProductCardItem extends StatelessWidget {
     this.isFav,
     this.onClickBuy,
     this.onClickDetail,
+    this.onChangeFav
   }) : super(key: key);
 
   @override
@@ -66,7 +69,11 @@ class ProductCardItem extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: context.normalBorderRadius,
                   color: context.appTheme.backgroundColor),
-              child: Image.network(product.photoUrl ?? ''),
+              child: CachedNetworkImage(
+                imageUrl: product.photoUrl ?? '',
+                fit: BoxFit.contain,
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
           ),
         ),
@@ -75,7 +82,11 @@ class ProductCardItem extends StatelessWidget {
           top: context.lowValue / 2,
           child: Hero(
               tag: product.productName.productFavTag,
-              child: ProductFavButton(isFav: isFav ?? false)),
+              child: ProductFavButton(
+                isFav: isFav ?? false,
+                onSelected: (value) => onChangeFav?.call(value),
+              )
+          ),
         )
       ],
     );
