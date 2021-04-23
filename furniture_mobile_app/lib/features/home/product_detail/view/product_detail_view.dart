@@ -1,14 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/widgets/wrap_with_badge.dart';
 import '../../../../core/base/base_view.dart';
 import '../../../../core/init/theme/furniture_theme.dart';
-import '../../../../product/managers/basket_manager.dart';
+import '../../../../core/widgets/wrap_with_badge.dart';
 import '../../../../product/constants/custom_colors.dart';
 import '../../../../product/extensions/string_extensions.dart';
+import '../../../../product/managers/basket_manager.dart';
+import '../../../../product/managers/user_manager.dart';
 import '../../../../product/models/product_model.dart';
 import '../../../../product/widgets/number_counter_button.dart';
 import '../../../../product/widgets/product_fav_button.dart';
@@ -53,8 +55,14 @@ class ProductDetailView extends StatelessWidget {
     return Padding(
       padding: context.horizontalPaddingLow,
       child: Hero(
-          tag: product.productName.productFavTag,
-          child: ProductFavButton(isFav: true)),
+        tag: product.productName.productFavTag,
+        child: Consumer<UserManager>(
+          builder: (context, userManager, child) => ProductFavButton(
+            isFav: _viewModel.isFavorite(userManager, product),
+            onSelected: (isChecked) => _viewModel.setFav(product, isChecked),
+          ),
+        ),
+      ),
     );
   }
 
@@ -80,7 +88,11 @@ class ProductDetailView extends StatelessWidget {
       height: context.dynamicHeight(0.25),
       child: Hero(
           tag: product.productName.productPhotoTag,
-          child: Image.network(product.photoUrl ?? '')),
+          child: CachedNetworkImage(
+            imageUrl: product.photoUrl ?? '',
+            fit: BoxFit.contain,
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          )),
     );
   }
 
@@ -213,9 +225,11 @@ class ProductDetailView extends StatelessWidget {
           right: 0,
           badgeLabel: context.watch<BasketManager>().productCount.toString(),
           badgeColor: context.appTheme.primaryColor,
-          child: Icon(Icons.shopping_bag_outlined, size: context.dynamicHeight(0.05),),
-        )
-    );
+          child: Icon(
+            Icons.shopping_bag_outlined,
+            size: context.dynamicHeight(0.05),
+          ),
+        ));
   }
 
   Widget _buildBuyButton(BuildContext context) {
