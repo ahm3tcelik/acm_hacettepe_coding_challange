@@ -7,7 +7,10 @@ final lightThemeData = ThemeData(
     primaryColorDark: colorScheme.primaryVariant,
     primaryColorLight: colorScheme.primaryVariant,
     cardColor: colorScheme.background,
-    primaryIconTheme: IconThemeData(color: colorScheme.primary),
+    primaryIconTheme: IconThemeData(color: colorScheme.onPrimary),
+    iconTheme: IconThemeData(
+      color: colorScheme.onPrimary,
+    ),
     accentColor: colorScheme.secondary,
     backgroundColor: colorScheme.background,
     scaffoldBackgroundColor: colorScheme.background,

@@ -6,6 +6,8 @@
   "call": "Call",
   "camera": "Camera",
   "settings": "Settings",
+  "online": "Online",
+  "offline": "Offline",
   "now":  "Now",
   "min": "min",
   "day": "day",
