@@ -1,10 +1,12 @@
+import 'dart:collection';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:message_app/core/base/base_model.dart';
 
 part 'message_model.g.dart';
 
 @JsonSerializable()
-class Message extends BaseModel<Message> {
+class Message extends BaseModel<Message> with LinkedListEntry<Message> {
   int? messageId;
   String? messageContent;
   String? senderId;

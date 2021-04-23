@@ -1,12 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:message_app/product/managers/user_manager.dart';
 import 'package:provider/provider.dart';
 
-import 'core/init/lang/locale_keys.g.dart';
 import 'core/constants/app_constants.dart';
 import 'core/init/lang/language_manager.dart';
-import 'product/managers/theme_manager.dart';
+import 'core/init/lang/locale_keys.g.dart';
 import 'features/home/home_base_view.dart';
+import 'product/managers/theme_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeManager()),
+        Provider.value(value: UserManager())
       ],
       child: EasyLocalization(
         supportedLocales: LanguageManager.instance.supportedLocales,

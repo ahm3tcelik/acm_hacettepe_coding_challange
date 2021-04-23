@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
-import 'package:message_app/features/home/message_detail/view/message_detail_view.dart';
-import 'package:message_app/product/models/chat_model.dart';
-import 'package:message_app/product/widgets/chat_card_item.dart';
+import 'package:message_app/product/managers/user_manager.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
+import '../../../../core/init/lang/locale_keys.g.dart';
 import '../../../../product/extensions/string_extensions.dart';
 import '../../../../product/models/fake_data.dart';
 import '../../../../product/models/user_model.dart';
 import '../../../../product/widgets/avatar.dart';
+import '../../../../product/models/chat_model.dart';
+import '../../../../product/widgets/chat_card_item.dart';
+import '../../message_detail/view/message_detail_view.dart';
 
-//TODO: LANG
 class MessagesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class MessagesView extends StatelessWidget {
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       title: Text(
-        'Chatttelr',
+        LocaleKeys.app_name.tr(),
         style: context.textTheme.headline4!.copyWith(
           fontWeight: FontWeight.bold,
         ),
@@ -43,7 +46,7 @@ class MessagesView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Activity',
+            LocaleKeys.activity.tr(),
             style: context.textTheme.headline6!.copyWith(
               fontWeight: FontWeight.w500,
             ),
@@ -52,7 +55,7 @@ class MessagesView extends StatelessWidget {
           _buildActivities(context),
           SizedBox(height: context.normalValue),
           Text(
-            'Messages',
+            LocaleKeys.messages,
             style: context.textTheme.headline6!.copyWith(
               fontWeight: FontWeight.w500,
             ),
@@ -105,10 +108,13 @@ class MessagesView extends StatelessWidget {
       itemCount: chatList.length,
       itemBuilder: (context, index) {
         final chat = chatList[index];
-        final targetUser = chat.targetUser(users[0]); // users[0] -> current user
+        final targetUser = chat.targetUser(context.read<UserManager>().currentUser);
+        if (targetUser == null) {
+          return SizedBox();
+        }
         return ChatCardItem(
           chat: chat,
-          targetUser: targetUser!,
+          targetUser: targetUser,
           onTap: () => goToChatDetail(context, chat, targetUser),
         );
       },

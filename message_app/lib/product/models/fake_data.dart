@@ -86,6 +86,20 @@ final chatList = <Chat>[
           receiverId: users[4].userId,
           receiveTime: null,
           sendTime: DateTime.now().toString()),
+      Message(
+          messageId: 5,
+          messageContent: 'Yes?',
+          senderId: users[4].userId,
+          receiverId: users[0].userId,
+          receiveTime: null,
+          sendTime: DateTime.now().toString()),
+      Message(
+          messageId: 6,
+          messageContent: 'Noxsxsx?',
+          senderId: users[4].userId,
+          receiverId: users[0].userId,
+          receiveTime: null,
+          sendTime: DateTime.now().toString()),
     ],
   ),
   Chat.createWithId(

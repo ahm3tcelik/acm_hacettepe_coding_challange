@@ -1,12 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
+import '../../core/init/lang/locale_keys.g.dart';
 import '../extensions/string_extensions.dart';
 import '../models/chat_model.dart';
 import '../models/user_model.dart';
 import 'avatar.dart';
 
-//TODO: LANG
 class ChatCardItem extends StatelessWidget {
   final User targetUser;
   final Chat chat;
@@ -25,9 +26,10 @@ class ChatCardItem extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: context.lowBorderRadius),
       onTap: onTap,
       contentPadding: EdgeInsets.zero,
-      leading: Hero(tag: targetUser.userId.avatarTag, child: Avatar(user: targetUser)),
-      title: Text(targetUser.userName.orEmpty,
-          style: context.textTheme.headline6),
+      leading: Hero(
+          tag: targetUser.userId.avatarTag, child: Avatar(user: targetUser)),
+      title:
+          Text(targetUser.userName.orEmpty, style: context.textTheme.headline6),
       subtitle: Text(
         chat.messages?.last.messageContent ?? '',
         overflow: TextOverflow.ellipsis,
@@ -44,19 +46,17 @@ class ChatCardItem extends StatelessWidget {
   }
 
   Widget _buildTimeAgo(BuildContext context) {
-    final diff = DateTime.now().difference(DateTime.parse(chat.messages?.last.sendTime ?? ''));
+    final diff = DateTime.now()
+        .difference(DateTime.parse(chat.messages?.last.sendTime ?? ''));
     var diffText = '';
     if (diff.inDays > 0) {
-      diffText = '${diff.inDays} day';
-    }
-    else if (diff.inHours > 0){
-      diffText = '${diff.inHours} hour';
-    }
-    else if (diff.inMinutes > 0) {
-      diffText = '${diff.inMinutes} min';
-    }
-    else {
-      diffText = 'Now';
+      diffText = '${diff.inDays} ${LocaleKeys.day.tr()}';
+    } else if (diff.inHours > 0) {
+      diffText = '${diff.inHours} ${LocaleKeys.hour.tr()}';
+    } else if (diff.inMinutes > 0) {
+      diffText = '${diff.inMinutes} ${LocaleKeys.min.tr()}';
+    } else {
+      diffText = LocaleKeys.now.tr();
     }
     return Text(
       diffText,
