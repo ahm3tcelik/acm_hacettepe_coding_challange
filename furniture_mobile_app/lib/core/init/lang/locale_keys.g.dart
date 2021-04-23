@@ -11,5 +11,6 @@ abstract class  LocaleKeys {
   static const product_detail = 'product_detail';
   static const color = 'color';
   static const all = 'all';
+  static const welcome = 'welcome';
 
 }

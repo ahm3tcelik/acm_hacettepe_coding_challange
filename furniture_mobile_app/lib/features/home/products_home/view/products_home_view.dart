@@ -64,7 +64,7 @@ class HomeView extends StatelessWidget {
         ),
       ),
       title: Text(
-        'Welcome',
+        LocaleKeys.welcome.tr(),
         style: context.textTheme.bodyText2,
       ),
       subtitle: Text(
