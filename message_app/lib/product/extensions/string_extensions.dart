@@ -5,6 +5,13 @@ extension NetworkImageExtension on String? {
   }
 }
 
+extension HeroTagExtension on String? {
+  String get avatarTag {
+    var tag = this;
+    return '${tag ?? ''}@avatar';
+  }
+}
+
 extension StringExtension on String? {
   String get orEmpty {
     var val = this;
