@@ -12,7 +12,7 @@ class ThemeManager extends ChangeNotifier {
   void changeTheme() {
     switch (_themeDataEnum) {
       case ThemeDataEnum.FURNITURE_LIGHT:
-        _currentTheme = ThemeData.dark();
+        _currentTheme = furnitureThemeData;
         break;
       case ThemeDataEnum.LIGHT:
         _currentTheme = ThemeData.light();
