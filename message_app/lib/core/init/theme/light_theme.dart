@@ -51,7 +51,7 @@ final lightThemeData = ThemeData(
     floatingActionButtonTheme:
         FloatingActionButtonThemeData(foregroundColor: colorScheme.onSecondary),
     inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(24)),
         isDense: true),
     cardTheme: CardTheme(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
