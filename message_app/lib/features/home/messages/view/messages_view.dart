@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+import 'package:message_app/features/home/message_detail/view/message_detail_view.dart';
+import 'package:message_app/product/models/chat_model.dart';
 import 'package:message_app/product/widgets/chat_card_item.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../../../product/extensions/string_extensions.dart';
 import '../../../../product/models/fake_data.dart';
@@ -102,13 +105,25 @@ class MessagesView extends StatelessWidget {
       itemCount: chatList.length,
       itemBuilder: (context, index) {
         final chat = chatList[index];
-        final targetUser = chat.targetUser(users[0]);
+        final targetUser = chat.targetUser(users[0]); // users[0] -> current user
         return ChatCardItem(
           chat: chat,
-          targetUser: targetUser,
-          onTap: () {},
+          targetUser: targetUser!,
+          onTap: () => goToChatDetail(context, chat, targetUser),
         );
       },
+    );
+  }
+
+  void goToChatDetail(BuildContext context, Chat? chat, User? targetUser) {
+    if (chat == null || targetUser == null) {
+      return;
+    }
+    Navigator.push(context,
+      PageTransition(
+        type: PageTransitionType.fade,
+        child: MessageDetailView(chat: chat, targetUser: targetUser,),
+      ),
     );
   }
 }
