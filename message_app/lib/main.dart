@@ -6,6 +6,7 @@ import 'core/init/lang/locale_keys.g.dart';
 import 'core/constants/app_constants.dart';
 import 'core/init/lang/language_manager.dart';
 import 'product/managers/theme_manager.dart';
+import 'features/home/home_base_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: Scaffold(),
+      home: HomeBaseView(),
     );
   }
 }
