@@ -6,21 +6,30 @@ final lightThemeData = ThemeData(
     primaryColor: colorScheme.primary,
     primaryColorDark: colorScheme.primaryVariant,
     primaryColorLight: colorScheme.primaryVariant,
-    cardColor: Color(0xFFFFFFFF),
+    cardColor: colorScheme.background,
     primaryIconTheme: IconThemeData(color: colorScheme.primary),
     accentColor: colorScheme.secondary,
     backgroundColor: colorScheme.background,
     scaffoldBackgroundColor: colorScheme.background,
+    appBarTheme: AppBarTheme(
+      color: colorScheme.background,
+      brightness: Brightness.light,
+      elevation: 0,
+      actionsIconTheme: IconThemeData(
+        color: colorScheme.onBackground,
+        opacity: 0.8
+      )
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: colorScheme.primary,
       showSelectedLabels: false,
       showUnselectedLabels: false,
       type: BottomNavigationBarType.fixed,
       selectedIconTheme:
-          IconThemeData(color: colorScheme.onPrimary, opacity: 1),
+      IconThemeData(color: colorScheme.onPrimary, opacity: 1),
       unselectedIconTheme: IconThemeData(
         color: colorScheme.onPrimary,
-        opacity: 0.5,
+        opacity: 0.4
       ),
     ),
     buttonTheme: ButtonThemeData(
@@ -49,12 +58,12 @@ final lightThemeData = ThemeData(
     brightness: Brightness.light);
 
 final colorScheme = ColorScheme.light(
-    primary: Color(0xFF484C7F),
-    primaryVariant: Color(0xFF1B2452),
-    secondary: Color(0xFF484C7F),
-    secondaryVariant: Color(0xFF1B2452),
-    background: Color(0xFFEEEEEF),
-    surface: Color(0xFFEEEEEF),
+    primary: Color(0xFF44C551),
+    primaryVariant: Color(0xFF009321),
+    secondary: Color(0xFFF1F0F5),
+    secondaryVariant: Color(0xFFF1F0F5),
+    background: Color(0xFFFFFFFF),
+    surface: Color(0xFFFFFFFF),
     error: Color(0xFFB00020),
     onPrimary: Color(0xFFFFFFFF),
     onSecondary: Color(0xFF000000),
@@ -64,29 +73,29 @@ final colorScheme = ColorScheme.light(
     brightness: Brightness.light);
 
 final textTheme = TextTheme(
-  headline1: GoogleFonts.roboto(
+  headline1: GoogleFonts.rubik(
       fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
-  headline2: GoogleFonts.roboto(
+  headline2: GoogleFonts.rubik(
       fontSize: 60, fontWeight: FontWeight.w300, letterSpacing: -0.5),
-  headline3: GoogleFonts.roboto(fontSize: 48, fontWeight: FontWeight.w400),
-  headline4: GoogleFonts.roboto(
+  headline3: GoogleFonts.rubik(fontSize: 48, fontWeight: FontWeight.w400),
+  headline4: GoogleFonts.rubik(
       fontSize: 34, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-  headline5: GoogleFonts.roboto(fontSize: 24, fontWeight: FontWeight.w400),
-  headline6: GoogleFonts.roboto(
+  headline5: GoogleFonts.rubik(fontSize: 24, fontWeight: FontWeight.w400),
+  headline6: GoogleFonts.rubik(
       fontSize: 20, fontWeight: FontWeight.w500, letterSpacing: 0.15),
-  subtitle1: GoogleFonts.roboto(
+  subtitle1: GoogleFonts.rubik(
       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.15),
-  subtitle2: GoogleFonts.roboto(
+  subtitle2: GoogleFonts.rubik(
       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.1),
-  bodyText1: GoogleFonts.roboto(
+  bodyText1: GoogleFonts.rubik(
       fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
-  bodyText2: GoogleFonts.roboto(
+  bodyText2: GoogleFonts.rubik(
       fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-  button: GoogleFonts.roboto(
+  button: GoogleFonts.rubik(
       fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
-  caption: GoogleFonts.roboto(
+  caption: GoogleFonts.rubik(
       fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
-  overline: GoogleFonts.roboto(
+  overline: GoogleFonts.rubik(
       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
 ).apply(
     displayColor: colorScheme.onBackground,
